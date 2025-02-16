@@ -2,13 +2,21 @@ const axios = require('axios')
 require('dotenv').config()
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY
+const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`
+
+/**
+ * Envia uma mensagem para a API da Google e retorna a resposta gerada.
+ * @param {string} message - A mensagem a ser enviada para a API.
+ * @returns {Promise<string>} - A resposta gerada pela API.
+ */
 async function getResponse(message) {
     if (!GEMINI_API_KEY) {
-        throw new Error('GEMINI_API_KEY is not defined')
+        throw new Error('A API KEY não foi definida.')
     }
+
     try {
         const { data } = await axios.post(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+            GEMINI_API_URL,
             {
                 contents: [{ parts: [{ text: message }] }],
             },
@@ -17,9 +25,15 @@ async function getResponse(message) {
             },
         )
 
-        return data.candidates[0].content.parts[0].text
+        const response = data.candidates[0].content.parts[0].text
+        if (!response) {
+            throw new Error('No response from Gemini API')
+        }
+
+        return response
     } catch (error) {
-        console.error(error)
+        console.error(`Erro ao consultar a API do Gemini: ${error}`)
+        throw error
     }
 }
 
