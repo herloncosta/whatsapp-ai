@@ -1,6 +1,6 @@
 # WhatsApp Bot com Integração de IA
 
-Este projeto é um bot para WhatsApp que utiliza a API de linguagem generativa da Google para responder automaticamente às mensagens recebidas. O bot é construído usando `whatsapp-web.js` para interagir com o WhatsApp Web, `axios` para fazer requisições HTTP para a API da Google e `validator.js` para validar e sanitizar as mensagens recebidas.
+Este projeto é um bot para WhatsApp que utiliza a API de linguagem generativa da Google para responder automaticamente às mensagens recebidas. O bot é construído usando `whatsapp-web.js` para interagir com o WhatsApp Web, `axios` para fazer requisições HTTP para a API da Google, `winston` para gerar os logs da aplicação e `validator.js` para validar e sanitizar as mensagens recebidas.
 
 ## Funcionalidades
 

@@ -1,6 +1,7 @@
 const { Client, LocalAuth } = require('whatsapp-web.js')
 const qrcode = require('qrcode-terminal')
-const { getResponse, sanitizeMessage } = require('./ia')
+const { getResponse, sanitizeMessage } = require('./src/ia')
+const logger = require('./src/logger')
 
 const client = new Client({
     authStrategy: new LocalAuth(),
@@ -11,28 +12,31 @@ const client = new Client({
 })
 
 client.on('qr', qr => {
-    console.log('Escaneie o QR Code abaixo:')
+    logger.info('Escaneie o QR Code abaixo:')
     qrcode.generate(qr, { small: true })
 })
 
 client.on('authenticated', () => {
-    console.log('Cliente autenticado!')
+    logger.info('Cliente autenticado!')
 })
 
 client.on('message', async data => {
     const message = sanitizeMessage(data.body)
     const prompt = `Você é um assistente pessoal amigável e prestativo. Responda à seguinte mensagem de forma natural e útil:\n\nUsuário: ${message}\nAssistente:`
+    logger.info(`Mensagem recebida: ${message}`)
 
     try {
         const response = await getResponse(prompt)
 
         if (response) {
             await data.reply(response)
+            logger.info(`Resposta enviada: ${response}`)
         } else {
             await data.reply('Não foi possível gerar uma resposta.')
+            logger.warn('Não foi possível obter uma resposta da API.')
         }
     } catch (error) {
-        console.error(error)
+        logger.error('Erro ao processar a mensagem', error)
         await msg.reply('Ocorreu um erro ao processar sua mensagem.')
     }
 })

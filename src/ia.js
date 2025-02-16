@@ -1,6 +1,7 @@
 const axios = require('axios')
 require('dotenv').config()
 const validator = require('validator')
+const logger = require('./logger')
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY
 const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`
@@ -23,6 +24,7 @@ function sanitizeMessage(message) {
  */
 async function getResponse(message) {
     if (!GEMINI_API_KEY) {
+        logger.error('A API KEY não foi definida.')
         throw new Error('A API KEY não foi definida.')
     }
 
@@ -39,12 +41,13 @@ async function getResponse(message) {
 
         const response = data.candidates[0].content.parts[0].text
         if (!response) {
-            throw new Error('No response from Gemini API')
+            logger.error('Sem resposta da API.')
+            throw new Error('Sem resposta da API.')
         }
 
         return response
     } catch (error) {
-        console.error(`Erro ao consultar a API do Gemini: ${error}`)
+        logger.error(`Erro ao consultar a API do Gemini: ${error}`)
         throw error
     }
 }
