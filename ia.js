@@ -1,8 +1,20 @@
 const axios = require('axios')
 require('dotenv').config()
+const validator = require('validator')
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY
 const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`
+
+/**
+ * Valida e sanitiza a mensagem recebida.
+ * @param {string} message: A mensagem a ser validada e sanitizada.
+ * @returns {string} A mensagem sanitizada.
+ */
+function sanitizeMessage(message) {
+    let sanitized = validator.escape(message)
+    sanitized = sanitized.replace(/[^a-zA-Z0-9\s]/g, '')
+    return sanitized
+}
 
 /**
  * Envia uma mensagem para a API da Google e retorna a resposta gerada.
@@ -37,4 +49,4 @@ async function getResponse(message) {
     }
 }
 
-module.exports = { getResponse }
+module.exports = { getResponse, sanitizeMessage }

@@ -1,6 +1,6 @@
 const { Client, LocalAuth } = require('whatsapp-web.js')
 const qrcode = require('qrcode-terminal')
-const { getResponse } = require('./ia')
+const { getResponse, sanitizeMessage } = require('./ia')
 
 const client = new Client({
     authStrategy: new LocalAuth(),
@@ -20,7 +20,7 @@ client.on('authenticated', () => {
 })
 
 client.on('message', async data => {
-    const message = data.body
+    const message = sanitizeMessage(data.body)
     const prompt = `Você é um assistente pessoal amigável e prestativo. Responda à seguinte mensagem de forma natural e útil:\n\nUsuário: ${message}\nAssistente:`
 
     try {
