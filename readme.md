@@ -1,6 +1,6 @@
 # WhatsApp Bot com Integração de IA
 
-Este projeto é um bot para WhatsApp que utiliza a API de linguagem generativa da Google para responder automaticamente às mensagens recebidas. O bot é construído usando `whatsapp-web.js` para interagir com o WhatsApp Web e `axios` para fazer requisições HTTP para a API da Google.
+Este projeto é um bot para WhatsApp que utiliza a API de linguagem generativa da Google para responder automaticamente às mensagens recebidas. O bot é construído usando `whatsapp-web.js` para interagir com o WhatsApp Web, `axios` para fazer requisições HTTP para a API da Google e `validator.js` para validar e sanitizar as mensagens recebidas.
 
 ## Funcionalidades
 
@@ -18,8 +18,8 @@ Este projeto é um bot para WhatsApp que utiliza a API de linguagem generativa d
 
 1. **Clone o Repositório**:
    ```bash
-   git clone https://github.com/herloncosta/whatsapp-ia-bot.git
-   cd whatsapp-ia-bot
+   git clone https://github.com/herloncosta/whatsapp-ia.git
+   cd whatsapp-ia
    ```
 
 2. **Instale as Dependências**:
