@@ -4,3 +4,5 @@ node_modules
 model.json
 model.nlp
 .env
+error.log
+combined.log
